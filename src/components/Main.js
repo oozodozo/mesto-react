@@ -2,7 +2,7 @@ import React from 'react';
 import api from "../utils/Api";
 import Card from "./Card";
 
-const Main = (props) => {
+const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
     const [userName, setUserName] = React.useState('');
     const [userDescription, setUserDescription] = React.useState('');
     const [userAvatar, setUserAvatar] = React.useState('');
@@ -34,13 +34,13 @@ const Main = (props) => {
         <main className="content">
             <section className="profile">
                 <div className="profile__avatar-container">
-                    <img className="profile__avatar"
-                         src={userAvatar}
-                         alt="Аватар"
-                    />
+                    {userAvatar && (<img  className="profile__avatar"
+                                          src={userAvatar}
+                                          alt='Аватар'
+                    />)}
                     <button type="button"
                             className="profile__avatar-button"
-                            onClick={props.onEditAvatar}
+                            onClick={onEditAvatar}
                     />
                 </div>
                 <div className="profile__info">
@@ -49,7 +49,7 @@ const Main = (props) => {
                     </h1>
                     <button type="button"
                             className="profile__edit-button page__button"
-                            onClick={props.onEditProfile}
+                            onClick={onEditProfile}
                     />
                     <p className="profile__description">
                         {userDescription}
@@ -57,7 +57,7 @@ const Main = (props) => {
                 </div>
                 <button type="button"
                         className="profile__add-button page__button"
-                        onClick={props.onAddPlace}
+                        onClick={onAddPlace}
                 />
             </section>
             <section className="elements">
@@ -65,7 +65,7 @@ const Main = (props) => {
                     cards.map((card) =>
                         <Card key={card._id}
                               card={card}
-                              onCardClick={props.onCardClick}
+                              onCardClick={onCardClick}
                         />
                     )
                 }
