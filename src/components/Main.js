@@ -5,7 +5,18 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
     const [cards, setCards] = React.useState([]);
-    const userData = React.useContext(CurrentUserContext);
+    const currentUser = React.useContext(CurrentUserContext);
+
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     React.useEffect(() => {
         api.getCards()
@@ -21,8 +32,8 @@ const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
         <main className="content">
             <section className="profile">
                 <div className="profile__avatar-container">
-                    {userData.avatar && (<img  className="profile__avatar"
-                                          src={userData.avatar}
+                    {currentUser.avatar && (<img  className="profile__avatar"
+                                          src={currentUser.avatar}
                                           alt='Аватар'
                     />)}
                     <button type="button"
@@ -32,14 +43,14 @@ const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
                 </div>
                 <div className="profile__info">
                     <h1 className="profile__title">
-                        {userData.name}
+                        {currentUser.name}
                     </h1>
                     <button type="button"
                             className="profile__edit-button page__button"
                             onClick={onEditProfile}
                     />
                     <p className="profile__description">
-                        {userData.about}
+                        {currentUser.about}
                     </p>
                 </div>
                 <button type="button"
@@ -53,6 +64,7 @@ const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
                         <Card key={card._id}
                               card={card}
                               onCardClick={onCardClick}
+                              onCardLike={handleCardLike}
                         />
                     )
                 }
