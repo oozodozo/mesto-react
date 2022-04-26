@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 const App = () => {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -41,6 +42,17 @@ const App = () => {
         setSelectedCard(card);
     }
 
+    function handleUpdateUser(userData) {
+        api.setUserInfo(userData)
+            .then((data) => {
+                setCurrentUser(data);
+                closeAllPopups()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     function closeAllPopups() {
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
@@ -59,37 +71,11 @@ const App = () => {
                     onCardClick={handleCardClick}
                 />
                 <Footer />
-                <PopupWithForm
-                    name='edit-profile'
-                    title='Редактировать профиль'
+                <EditProfilePopup
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
-                    buttonText='Сохранить'
-                >
-                    <fieldset className="popup__fieldset">
-                      <input name="name"
-                             type="text"
-                             id="name"
-                             className="popup__input popup__user-name"
-                             placeholder="Имя"
-                             minLength="2"
-                             maxLength="40"
-                             pattern="[a-zA-Zа-яА-я\-\s]+$"
-                             required
-                      />
-                      <span className="popup__error name-error" />
-                      <input name="about"
-                             type="text"
-                             id="about"
-                             className="popup__input popup__user-about"
-                             placeholder="О себе"
-                             minLength="2"
-                             maxLength="200"
-                             pattern="[a-zA-Zа-яА-я\-\s]+$"
-                             required />
-                      <span className="popup__error about-error" />
-                    </fieldset>
-                </PopupWithForm>
+                    onUpdateUser={handleUpdateUser}
+                />
                 <PopupWithForm
                     name='add-element'
                     title='Новое место'
