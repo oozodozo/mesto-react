@@ -7,6 +7,16 @@ const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
     const [cards, setCards] = React.useState([]);
     const currentUser = React.useContext(CurrentUserContext);
 
+    React.useEffect(() => {
+        api.getCards()
+            .then((cardsData) => {
+                setCards(cardsData)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, []);
+
     function handleCardLike(card) {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
         api.changeLikeCardStatus(card._id, !isLiked)
@@ -18,15 +28,15 @@ const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
             })
     }
 
-    React.useEffect(() => {
-        api.getCards()
-            .then((cardsData) => {
-                setCards(cardsData)
+    function handleCardDelete(card) {
+        api.deleteCard(card._id)
+            .then(() => {
+                setCards(cards.filter((item) => item !== card));
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
             })
-    }, []);
+    }
 
     return (
         <main className="content">
@@ -65,6 +75,7 @@ const Main = ({onEditAvatar, onAddPlace, onEditProfile, onCardClick}) => {
                               card={card}
                               onCardClick={onCardClick}
                               onCardLike={handleCardLike}
+                              onCardDelete={handleCardDelete}
                         />
                     )
                 }
