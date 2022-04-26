@@ -7,6 +7,7 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 const App = () => {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -46,7 +47,18 @@ const App = () => {
         api.setUserInfo(userData)
             .then((data) => {
                 setCurrentUser(data);
-                closeAllPopups()
+                closeAllPopups();
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    function handleUpdateAvatar(userData) {
+        api.updateUserAvatar(userData)
+            .then((data) => {
+                setCurrentUser((data));
+                closeAllPopups();
             })
             .catch((err) => {
                 console.log(err)
@@ -113,24 +125,11 @@ const App = () => {
                     title='Вы уверены?'
                     buttonText='Да'
                 />
-                <PopupWithForm
-                    name='edit-avatar'
-                    title='Обновить аватар'
+                <EditAvatarPopup
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
-                    buttonText='Сохранить'
-                >
-                    <fieldset className="popup__fieldset">
-                      <input name="avatarLink"
-                             type="url"
-                             id="avatar-link"
-                             className="popup__input popup__avatar-link"
-                             placeholder="Ссылка на картинку"
-                             pattern="[a-zA-Zа-яА-я\-\S]+$"
-                             required />
-                      <span className="popup__error avatar-link-error" />
-                    </fieldset>
-                </PopupWithForm>
+                    onUpdateAvatar={handleUpdateAvatar}
+                />
             </div>
         </CurrentUserContext.Provider>
     );
