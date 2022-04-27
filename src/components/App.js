@@ -17,7 +17,6 @@ const App = () => {
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
-
     const [renderLoad, setRenderLoad] = React.useState(false);
 
     React.useEffect(() => {
@@ -52,16 +51,12 @@ const App = () => {
     }
 
     function handleCardDelete(card) {
-        setRenderLoad(true);
         api.deleteCard(card._id)
             .then(() => {
                 setCards(cards.filter((item) => item !== card));
             })
             .catch((err) => {
                 console.log(err);
-            })
-            .finally(() => {
-                setRenderLoad(false);
             })
     }
 
