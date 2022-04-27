@@ -1,6 +1,17 @@
 ### Яндекс.Практикум
-# mesto-react
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# `mesto-react`
+Приложение позволяющее делиться фотографиями. Есть зависимость от текущего пользователя. Все данные хранятся на сервере и загружаются совместно с отрисовкой компонентов. Отслеживается постановка и удаление лайков. Удалить можно только свою фотографию.  
+Созданное при помощи [Create React App](https://github.com/facebook/create-react-app).  
+Разрабатывался по макету [Яндекс.Практикум](https://practicum.yandex.ru/)
+
+## Технологии:  
++ **React Create App**
++ **CSS**
++ **HTML**
++ **Java Script**
++ **Webpack**
++ **Медотология Бэм**
++ **Адаптивная верстка**
 
 ## Available Scripts
 
@@ -40,7 +51,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 ## Ссылка на сайт:
 
-[![Логотип проекта](./src/images/logo.svg)]()
+[![Логотип проекта](./src/images/logo.svg)](https://oozodozo.github.io/mesto-react/)
 
 
 ---
