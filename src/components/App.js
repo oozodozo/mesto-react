@@ -18,6 +18,8 @@ const App = () => {
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
 
+    const [renderLoad, setRenderLoad] = React.useState(false);
+
     React.useEffect(() => {
         api.getCards()
             .then((cardsData) => {
@@ -50,6 +52,7 @@ const App = () => {
     }
 
     function handleCardDelete(card) {
+        setRenderLoad(true);
         api.deleteCard(card._id)
             .then(() => {
                 setCards(cards.filter((item) => item !== card));
@@ -57,9 +60,13 @@ const App = () => {
             .catch((err) => {
                 console.log(err);
             })
+            .finally(() => {
+                setRenderLoad(false);
+            })
     }
 
     function handleAddPlaceSubmit(cardData) {
+        setRenderLoad(true);
         api.addUserCard(cardData)
             .then((newCard) => {
                 setCards([newCard, ...cards])
@@ -67,6 +74,9 @@ const App = () => {
             })
             .catch((err) => {
                 console.log(err)
+            })
+            .finally(() => {
+                setRenderLoad(false);
             })
     }
 
@@ -87,6 +97,7 @@ const App = () => {
     }
 
     function handleUpdateUser(userData) {
+        setRenderLoad(true);
         api.setUserInfo(userData)
             .then((data) => {
                 setCurrentUser(data);
@@ -95,9 +106,13 @@ const App = () => {
             .catch((err) => {
                 console.log(err)
             })
+            .finally(() => {
+                setRenderLoad(false);
+            })
     }
 
     function handleUpdateAvatar(userData) {
+        setRenderLoad(true);
         api.updateUserAvatar(userData)
             .then((data) => {
                 setCurrentUser((data));
@@ -105,6 +120,9 @@ const App = () => {
             })
             .catch((err) => {
                 console.log(err)
+            })
+            .finally(() => {
+                setRenderLoad(false);
             })
     }
 
@@ -134,11 +152,13 @@ const App = () => {
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                     onUpdateUser={handleUpdateUser}
+                    renderLoad={renderLoad}
                 />
                 <AddPlacePopup
                     isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
                     onAddPlace={handleAddPlaceSubmit}
+                    renderLoad={renderLoad}
                 />
                 <ImagePopup
                     card={selectedCard}
@@ -153,6 +173,7 @@ const App = () => {
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar}
+                    renderLoad={renderLoad}
                 />
             </div>
         </CurrentUserContext.Provider>

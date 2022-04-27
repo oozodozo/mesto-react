@@ -1,7 +1,7 @@
 import React from 'react';
 import PopupWithForm from "./PopupWithForm";
 
-const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
+const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar, renderLoad}) => {
 
     const avatarRef = React.useRef('');
 
@@ -19,7 +19,7 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
             title='Обновить аватар'
             isOpen={isOpen}
             onClose={onClose}
-            buttonText='Сохранить'
+            buttonText={renderLoad ? 'Обновление...' : 'Обновить'}
             onSubmit={handleSubmit}
         >
             <fieldset className="popup__fieldset">
