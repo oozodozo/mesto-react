@@ -3,24 +3,26 @@ import PopupWithForm from "./PopupWithForm";
 
 const AddPlacePopup = ({isOpen, onClose, onAddPlace, renderLoad}) => {
 
-     const [name, setName] = React.useState('');
-     const [link, setLink] = React.useState('');
+    const [values, setValues] = React.useState({})
+    const nameRef = React.useRef('');
+    const linkRef = React.useRef('');
 
-     function handleNameChange(e) {
-         setName(e.target.value);
-     }
+    React.useEffect(() => {
+        nameRef.current.value = '';
+        linkRef.current.value = '';
+    }, [isOpen])
 
-     function handleLinkChange(e) {
-         setLink(e.target.value);
-     }
+    function handleChange(event) {
+        const { name, value } = event.target
+        setValues((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
 
      function handleSubmit(e) {
          e.preventDefault();
-         onAddPlace({
-             name,
-             link
-         });
-         e.target.reset();
+         onAddPlace(values);
      }
 
     return (
@@ -36,7 +38,8 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace, renderLoad}) => {
                 <input name="name"
                        type="text"
                        id="place-title"
-                       onChange={handleNameChange}
+                       ref={nameRef}
+                       onChange={handleChange}
                        className="popup__input popup__place-title"
                        placeholder="Название"
                        minLength="2"
@@ -47,7 +50,8 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace, renderLoad}) => {
                 <input name="link"
                        type="url"
                        id="image-link"
-                       onChange={handleLinkChange}
+                       ref={linkRef}
+                       onChange={handleChange}
                        className="popup__input popup__image-link"
                        placeholder="Ссылка на картинку"
                        pattern="[a-zA-Zа-яА-я\-\S]+$"

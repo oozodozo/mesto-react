@@ -6,7 +6,6 @@ const PopupWithForm = ({name, title, buttonText, isOpen, onClose, children, onSu
             <div className="popup__container">
                 <form className="popup__form"
                       name={name}
-                      noValidate
                       onSubmit={onSubmit}
                 >
                     <h2 className="popup__title">

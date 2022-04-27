@@ -53,7 +53,7 @@ const App = () => {
     function handleCardDelete(card) {
         api.deleteCard(card._id)
             .then(() => {
-                setCards(cards.filter((item) => item !== card));
+                setCards((state) => state.filter((item) => item !== card))
             })
             .catch((err) => {
                 console.log(err);
