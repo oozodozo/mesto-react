@@ -3,13 +3,13 @@ import PopupWithForm from "./PopupWithForm";
 
 const AddPlacePopup = ({isOpen, onClose, onAddPlace, renderLoad}) => {
 
-    const [values, setValues] = React.useState({})
-    const nameRef = React.useRef('');
-    const linkRef = React.useRef('');
+    const [values, setValues] = React.useState({});
 
     React.useEffect(() => {
-        nameRef.current.value = '';
-        linkRef.current.value = '';
+        setValues({
+            name: '',
+            link: ''
+        })
     }, [isOpen])
 
     function handleChange(event) {
@@ -38,7 +38,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace, renderLoad}) => {
                 <input name="name"
                        type="text"
                        id="place-title"
-                       ref={nameRef}
+                       value={values.name || ''}
                        onChange={handleChange}
                        className="popup__input popup__place-title"
                        placeholder="Название"
@@ -50,7 +50,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace, renderLoad}) => {
                 <input name="link"
                        type="url"
                        id="image-link"
-                       ref={linkRef}
+                       value={values.link || ''}
                        onChange={handleChange}
                        className="popup__input popup__image-link"
                        placeholder="Ссылка на картинку"
