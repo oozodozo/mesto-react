@@ -41,6 +41,15 @@ const App = () => {
             })
     }, []);
 
+    React.useEffect(() => {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAllPopups();
+            }
+            console.log('ups');
+        });
+    }, []);
+
     function handleEditProfileClick() {
         setIsEditProfilePopupOpen(true);
     }
@@ -153,7 +162,6 @@ const App = () => {
                     cards={cards}
                     onCardLike={handleCardLike}
                     onCardDelete={handleDeletePlaceClick}
-
                 />
                 <Footer />
                 <EditProfilePopup
